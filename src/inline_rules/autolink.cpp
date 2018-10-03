@@ -3,10 +3,12 @@
 //
 
 #include "inline_rules.h"
-
-boost::regex EMAIL_RE(
-        "^<([a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)>");
-boost::regex AUTOLINK_RE("^<([a-zA-Z][a-zA-Z0-9+.\\-]{1,31}):([^<>\\x00-\\x20]*)>");
+namespace ccm {
+    boost::regex EMAIL_RE(
+            "^<([a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)>");
+    boost::regex AUTOLINK_RE("^<([a-zA-Z][a-zA-Z0-9+.\\-]{1,31}):([^<>\\x00-\\x20]*)>");
+    bool autolink(InlineState &state, bool silent);
+}
 
 bool ccm::autolink(InlineState &state, bool silent) {
 //            var tail, linkMatch, emailMatch, url, fullUrl, token,

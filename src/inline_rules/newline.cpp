@@ -4,6 +4,10 @@
 
 #include "inline_rules.h"
 
+namespace ccm{
+    bool newline(InlineState &state, bool silent);
+}
+
 bool ccm::newline(InlineState &state, bool silent) {
     int pmax, max, pos = state.pos;
 

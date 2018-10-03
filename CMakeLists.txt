@@ -17,11 +17,11 @@ set(sources
         src/Renderer.cpp
         src/InlineParser.cpp
         src/inline_rules/inline_rules.cpp
-        src/block_rules/heading.cpp src/block_rules/paragraph.cpp src/block_rules/code.cpp src/block_rules/fence.cpp src/block_rules/hr.cpp src/block_rules/blockquote.cpp src/block_rules/list.cpp src/block_rules/reference.cpp src/block_rules/lheading.cpp src/block_rules/html_block.cpp src/inline_rules/text.cpp src/inline_rules/newline.cpp src/inline_rules/escape.cpp src/inline_rules/autolink.cpp src/inline_rules/backtick.cpp src/inline_rules/strikethrough.cpp src/inline_rules/link.cpp src/inline_rules/image.cpp src/inline_rules/entity.cpp src/inline_rules/emphasis.cpp src/inline_rules/html_inline.cpp src//processor.cpp)
+        src/block_rules/heading.cpp src/block_rules/paragraph.cpp src/block_rules/code.cpp src/block_rules/fence.cpp src/block_rules/hr.cpp src/block_rules/blockquote.cpp src/block_rules/list.cpp src/block_rules/reference.cpp src/block_rules/lheading.cpp src/block_rules/html_block.cpp src/inline_rules/text.cpp src/inline_rules/newline.cpp src/inline_rules/escape.cpp src/inline_rules/autolink.cpp src/inline_rules/backtick.cpp src/inline_rules/strikethrough.cpp src/inline_rules/link.cpp src/inline_rules/image.cpp src/inline_rules/entity.cpp src/inline_rules/emphasis.cpp src/inline_rules/html_inline.cpp src//processor.cpp src/block_rules/math_block.cpp src/inline_rules/math_inline.cpp)
 
 add_library(ccmark
         ${sources}
-        )
+        src/block_rules/math_block.cpp src/inline_rules/math_inline.cpp)
 target_include_directories(ccmark PUBLIC src)
 #target_link_libraries(ccmark PUBLIC -lboost_regex)
 

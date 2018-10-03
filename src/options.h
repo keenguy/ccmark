@@ -14,6 +14,9 @@ namespace ccm{
         bool breaks = false;
         std::string langPrefix {"language-"};
 
+        //added
+        bool taskList = true;
+
         //not implemented
 //        bool highlight = false;
 //        bool linkify = false;

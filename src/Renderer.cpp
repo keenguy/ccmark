@@ -48,6 +48,9 @@ namespace ccm {
         rules["text"] = &Renderer::text;
         rules["html_block"] = &Renderer::html_block;
         rules["html_inline"] = &Renderer::html_inline;
+        rules["checkbox"] = &Renderer::checkbox;
+        rules["math_block"] = &Renderer::math_block;
+        rules["math_inline"] = &Renderer::math_inline;
     }
 
 
@@ -133,6 +136,18 @@ namespace ccm {
     }
     std::string Renderer::html_inline( vector<Token> &tokens, int idx) const {
         return tokens[idx].content;
+    }
+
+    std::string Renderer::checkbox(vector<Token> &tokens, int idx) const{
+        return "<input" + renderAttrs(tokens[idx]) + ">";
+    }
+
+    std::string Renderer::math_block(vector<Token> &tokens, int idx) const{
+        return "\\[" + tokens[idx].content + "\\]";
+    }
+
+    std::string Renderer::math_inline(vector<Token> &tokens, int idx) const{
+        return "\\(" + tokens[idx].content + "\\)";
     }
 
 

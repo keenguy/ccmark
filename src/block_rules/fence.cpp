@@ -3,7 +3,12 @@
 //
 
 #include "block_rules.h"
-using std::string;
+
+namespace ccm{
+    bool fence(BlockState &state, int startLine, int endLine, bool);
+}
+
+//using std::string;
 bool ccm::fence(BlockState &state, int startLine, int endLine, bool silent) {
     bool haveEndMarker = false;
     int pos = state.bMarks[startLine] + state.tShift[startLine];

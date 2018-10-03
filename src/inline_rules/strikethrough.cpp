@@ -4,6 +4,11 @@
 
 #include "inline_rules.h"
 
+namespace ccm{
+    bool strikethrough(InlineState &state, bool silent);
+    void strikethrough_post(InlineState &state);
+}
+
 bool ccm::strikethrough(InlineState &state, bool silent) {
 //            var i, scanned, token, len, ch,
     int start = state.pos;

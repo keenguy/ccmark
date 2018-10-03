@@ -3,6 +3,10 @@
 //
 #include "block_rules.h"
 
+namespace ccm{
+    bool paragraph(BlockState &state, int startLine, int endLine, bool);
+}
+
 bool ccm::paragraph(BlockState &state, int startLine, int, bool) {
 
     int nextLine = startLine + 1;
@@ -42,7 +46,28 @@ bool ccm::paragraph(BlockState &state, int startLine, int, bool) {
     t1.map = std::make_pair(startLine, state.curLine);
     state.pushToken(t1);
 
+    // task list
+    if (state.options.taskList && oldParentType == "list" && state.parentIndex >= 0){
+        int checked = -1;
+        if (content.find("[ ] ") == 0){
+            checked = 0;
+        }else if (content.find("[x] ") == 0 || content.find("[X] ") == 0){
+            checked = 1;
+        }
+        if (checked >= 0) {
+            state.tokens[state.parentIndex].joinAttr("class", "task-list-item");
+            content = content.substr(3);
+            Token tl("checkbox", "input", 0);
+            tl.setAttr("class","task-list-item-checkbox");
+            tl.setAttr("type", "checkbox");
+            tl.setAttr("disabled","");
+            if (checked >= 1){
+                tl.setAttr("checked","");
+            }
+            state.pushToken(tl);
+        }
 
+    }
     Token t2("inline", "", 0);
     t2.content = content;
     t2.map = std::make_pair(startLine, state.curLine);

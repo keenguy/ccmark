@@ -6,7 +6,22 @@
 
 
 namespace ccm {
-        using namespace std;
+
+    //inline rules
+    bool text(InlineState &state, bool silent);
+    bool newline(InlineState &state, bool silent);
+    bool escape(InlineState &state, bool silent);
+    bool backtick(InlineState &state, bool silent);
+    bool strikethrough(InlineState &state, bool silent);
+    void strikethrough_post(InlineState &state);
+    bool emphasis(InlineState &state, bool silent);
+    void emphasis_post(InlineState &state);
+    bool link(InlineState &state, bool silent);
+    bool image(InlineState &state, bool silent);
+    bool autolink(InlineState &state, bool silent);
+    bool html_inline(InlineState &state, bool silent);
+    bool entity(InlineState &state, bool silent);
+    bool math_inline(InlineState &state, bool silent);
 
         //global post rules
         void link_pairs(InlineState &state) {
@@ -92,7 +107,7 @@ namespace ccm {
 
     std::vector<InlineRule> getInlineRules() {
         if (!compiled) { compile(); }
-        return {text, newline, escape, backtick, strikethrough, emphasis, link, image, autolink, html_inline, entity};
+        return {text, newline, escape, math_inline, backtick, strikethrough, emphasis, link, image, autolink, html_inline, entity};
     }
 
     std::vector<InlinePostRule> getInlinePostRules() {

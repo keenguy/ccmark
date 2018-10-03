@@ -3,6 +3,10 @@
 //
 #include "block_rules.h"
 
+namespace ccm{
+    bool hr(BlockState &state, int startLine, int endLine, bool);
+}
+
 bool ccm::hr(BlockState &state, int startLine, int endLine, bool silent) {
     char marker, ch;
     int cnt;

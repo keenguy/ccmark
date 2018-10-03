@@ -3,6 +3,10 @@
 //
 #include "block_rules.h"
 
+namespace ccm{
+    bool html_block(BlockState &state, int startLine, int endLine, bool);
+}
+
 namespace ccm {
     std::vector<HTMLPARSER> HTML_SEQUENCES;
     std::vector<string> html_blocks{

@@ -4,9 +4,13 @@
 
 #include "inline_rules.h"
 
-boost::regex ENTITYS_RE("^&((#(?:x[a-f0-9]{1,8}|[0-9]{1,8}))|([a-z][a-z0-9]{1,31}));");
+namespace ccm {
+    bool entity(InlineState &state, bool silent);
+
+    boost::regex ENTITYS_RE("^&((#(?:x[a-f0-9]{1,8}|[0-9]{1,8}))|([a-z][a-z0-9]{1,31}));");
 //        boost::regex ENTITY_RE("&");
 //        boost::regex NAMED_RE("^&([a-z][a-z0-9]{1,31});");
+}
 
 bool ccm::entity(InlineState &state, bool silent) {
     int pos = state.pos, max = state.posMax;

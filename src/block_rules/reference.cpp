@@ -4,6 +4,10 @@
 
 #include "block_rules.h"
 
+namespace ccm{
+    bool reference(BlockState &state, int startLine, int endLine, bool);
+}
+
 bool ccm::reference(BlockState &state, int startLine, int _endLine, bool silent) {
     int pos = state.bMarks[startLine] + state.tShift[startLine];
     int max = state.eMarks[startLine];

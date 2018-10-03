@@ -4,6 +4,10 @@
 
 #include "block_rules.h"
 
+namespace ccm{
+    bool lheading(BlockState &state, int startLine, int endLine, bool);
+}
+
 bool ccm::lheading(BlockState &state, int startLine, int endLine, bool) {
     int nextLine = startLine + 1;
 
@@ -60,6 +64,7 @@ bool ccm::lheading(BlockState &state, int startLine, int endLine, bool) {
 
     if (level <= 0) {
         // Didn't find valid underline
+        state.parentType = oldParentType;
         return false;
     }
 

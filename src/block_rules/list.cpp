@@ -4,6 +4,10 @@
 
 #include "block_rules.h"
 
+namespace ccm{
+    bool list(BlockState &state, int startLine, int endLine, bool);
+}
+
 namespace ccm {
 // Search `[-+*][\n ]`, returns next pos after marker on success
 // or -1 on fail.
@@ -220,6 +224,7 @@ namespace ccm {
             itemTok.markup = string(1, markerCharCode);
             itemTok.map = std::make_pair(startLine, 0);
             state.pushToken(itemTok);
+            state.parentIndex = itemTokIdx;
 
             int oldIndent = state.blkIndent;
             bool oldTight = state.tight;
@@ -308,6 +313,7 @@ namespace ccm {
         state.curLine = nextLine;
 
         state.parentType = oldParentType;
+        state.parentIndex = -1;
 
         // mark paragraphs tight if needed
         if (tight) {

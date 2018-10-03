@@ -24,18 +24,57 @@ namespace fs = std::filesystem;
 //    return true;
 //}
 
-
+string html_tmpl {R"(<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/github-markdown-css/2.2.1/github-markdown.css"/>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+	<style>
+	#input {
+		display: block;
+		font-size: 12pt;
+		padding-top: 0.5em;
+		padding-left: 0.1em;
+		font-family: monospace;
+	}
+	#button {
+		margin-top: 1em;
+		width: 120px;
+		height: 50px;
+		font-size: 14pt;
+	}
+	#output {
+		margin: 20px;
+	}
+	</style>
+</head>
+<body>
+<article class="markdown-body">
+{{body}}
+</article>
+</body>
+</html>)"};
 
 
 int main(int argc, char** argv){
     ifstream mdFile("../tests/tmp/basic.txt");
+    ofstream htmlFile("../tests/tmp/basic.html");
     stringstream ss;
     ss << mdFile.rdbuf();
     string src {ss.str()};
 
 
+
     ccm::CCMark cm;
-    cout<<cm.render(src)<<endl;
+    string res {cm.render(src)};
+    cout<<res<<endl;
+
+    string html = html_tmpl.replace(html_tmpl.find("{{body}}"),8, res);
+    htmlFile << html;
 
 //    state.writeTokens(std::cout);
 

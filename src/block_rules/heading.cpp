@@ -3,6 +3,10 @@
 //
 #include "block_rules.h"
 
+namespace ccm{
+    bool heading(BlockState &state, int startLine, int endLine, bool);
+}
+
 bool ccm::heading(BlockState &state, int startLine, int endLine, bool silent) {
     int pos = state.bMarks[startLine] + state.tShift[startLine];
     int max = state.eMarks[startLine];

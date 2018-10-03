@@ -4,6 +4,10 @@
 
 #include "inline_rules.h"
 
+namespace ccm{
+    bool image(InlineState &state, bool silent);
+}
+
 bool ccm::image(InlineState &state, bool silent) {
 
     int oldPos = state.pos;

@@ -4,6 +4,11 @@
 
 #include "inline_rules.h"
 
+namespace ccm{
+    bool emphasis(InlineState &state, bool silent);
+    void emphasis_post(InlineState &state);
+}
+
 bool ccm::emphasis(InlineState &state, bool silent) {
 //            var i, scanned, token,
     int start = state.pos;

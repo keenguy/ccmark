@@ -52,6 +52,10 @@ namespace ccm {
 
         std::string renderInline(std::vector<Token> &tokens) const;
 
+        std::string checkbox(std::vector<Token> &tokens, int idx) const;
+        std::string math_block(std::vector<Token> &tokens, int idx) const;
+        std::string math_inline(std::vector<Token> &tokens, int idx) const;
+
     };
 }
 

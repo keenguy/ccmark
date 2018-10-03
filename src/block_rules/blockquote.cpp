@@ -4,6 +4,10 @@
 
 #include "block_rules.h"
 
+namespace ccm {
+    bool blockquote(BlockState &state, int startLine, int endLine, bool);
+}
+
 bool ccm::blockquote(BlockState &state, int startLine, int endLine, bool silent) {
     int oldLineMax = state.maxLine;
     int pos = state.bMarks[startLine] + state.tShift[startLine];
@@ -264,4 +268,4 @@ bool ccm::blockquote(BlockState &state, int startLine, int endLine, bool silent)
     state.blkIndent = oldIndent;
 
     return true;
-};
+}

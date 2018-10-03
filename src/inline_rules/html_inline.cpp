@@ -5,6 +5,10 @@
 #include "inline_rules.h"
 #include "../helpers/html_re.h"
 
+namespace ccm{
+    bool html_inline(InlineState &state, bool silent);
+}
+
 bool ccm::html_inline(InlineState &state, bool silent) {
 
 

@@ -4,6 +4,10 @@
 
 #include "inline_rules.h"
 
+namespace ccm{
+    bool link(InlineState &state, bool silent);
+}
+
 int ccm::parseLinkLabel(InlineState &state, int start, bool disableNested) {
 
     int max = state.posMax,

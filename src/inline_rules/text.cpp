@@ -4,6 +4,9 @@
 
 #include "inline_rules.h"
 
+namespace ccm{
+    bool text(InlineState &state, bool silent);
+}
 namespace {
     bool isTerminatorChar(char ch) {
         switch (ch) {

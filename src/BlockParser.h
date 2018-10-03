@@ -45,7 +45,8 @@ namespace ccm {
         LinkIds &linkIds;
         Options &options;
 
-        std::string parentType;
+        int parentIndex = -1;   // index of parent/ancestor "open" token
+        std::string parentType;  //different from parentIndex, e.g. inline's parentType may be list (not list_item)
         std::vector<int> bMarks;
         std::vector<int> eMarks;
         std::vector<int> tShift;

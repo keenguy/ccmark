@@ -4,6 +4,10 @@
 
 #include "inline_rules.h"
 
+namespace ccm{
+    bool backtick(InlineState &state, bool silent);
+}
+
 bool ccm::backtick(InlineState &state, bool silent) {
 //            var start, max, marker, matchStart, matchEnd, token,
     int pos = state.pos;

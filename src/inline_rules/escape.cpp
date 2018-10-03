@@ -4,9 +4,12 @@
 
 #include "inline_rules.h"
 
+namespace ccm {
+    bool escape(InlineState &state, bool silent);
 
-std::vector<int> ccm::ESCAPED(256, 0);
-std::string ccm::ESCAPE_CHARS{"\\!\"#$%&\'()*+,./:;<=>\?@[]^_`{|}~-"};
+    std::vector<int> ESCAPED(256, 0);
+    std::string ESCAPE_CHARS{"\\!\"#$%&\'()*+,./:;<=>\?@[]^_`{|}~-"};
+}
 
 bool ccm::escape(InlineState &state, bool silent) {
     char ch;

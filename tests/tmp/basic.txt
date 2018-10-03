@@ -1,2 +1,11 @@
+- item0
 - [ ] item1
 - [x] item2
+- item3
+
+
+
+This is an $O(\log n)$ algorithm.
+
+Equation:
+$$ E = mc^2$$
