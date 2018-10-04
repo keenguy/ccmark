@@ -82,11 +82,11 @@ namespace ccm {
         // if it's indented more than 3 spaces, it should be a code block
         if (state.sCount[startLine] - state.blkIndent >= 4) { return false; }
 
-        if (!state.options.html) { return false; }
+        if (!state.coreState.options.html) { return false; }
 
-        if (state.src[pos] != 0x3C/* < */) { return false; }
+        if (state.coreState.src[pos] != 0x3C/* < */) { return false; }
 
-        string lineText = state.src.substr(pos, max - pos);
+        string lineText = state.coreState.src.substr(pos, max - pos);
         int i = 0;
         for (i = 0; i < HTML_SEQUENCES.size(); i++) {
             if (regex_search(lineText, std::get<0>(HTML_SEQUENCES[i]))) { break; }
@@ -109,7 +109,7 @@ namespace ccm {
 
                 pos = state.bMarks[nextLine] + state.tShift[nextLine];
                 max = state.eMarks[nextLine];
-                lineText = state.src.substr(pos, max - pos);
+                lineText = state.coreState.src.substr(pos, max - pos);
 
                 if (regex_search(lineText, std::get<1>(HTML_SEQUENCES[i]))) {
                     if (lineText.length() != 0) { nextLine++; }

@@ -19,7 +19,7 @@ bool ccm::fence(BlockState &state, int startLine, int endLine, bool silent) {
 
     if (pos + 3 > max) { return false; }
 
-    char marker = state.src[pos];
+    char marker = state.coreState.src[pos];
 
     if (marker != 0x7E/* ~ */ && marker != 0x60 /* ` */) {
         return false;
@@ -33,8 +33,8 @@ bool ccm::fence(BlockState &state, int startLine, int endLine, bool silent) {
 
     if (len < 3) { return false; }
 
-    string markup = state.src.substr(mem, pos - mem);
-    string params = state.src.substr(pos, max - pos);
+    string markup = state.coreState.src.substr(mem, pos - mem);
+    string params = state.coreState.src.substr(pos, max - pos);
 
     if (params.find(marker) != string::npos) { return false; }
 
@@ -62,7 +62,7 @@ bool ccm::fence(BlockState &state, int startLine, int endLine, bool silent) {
             break;
         }
 
-        if (state.src[pos] != marker) { continue; }
+        if (state.coreState.src[pos] != marker) { continue; }
 
         if (state.sCount[nextLine] - state.blkIndent >= 4) {
             // closing fence should be indented less than 4 spaces

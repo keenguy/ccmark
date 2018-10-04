@@ -16,7 +16,7 @@ bool ccm::hr(BlockState &state, int startLine, int endLine, bool silent) {
     // if it's indented more than 3 spaces, it should be a code block
     if (state.sCount[startLine] - state.blkIndent >= 4) { return false; }
 
-    marker = state.src[pos++];
+    marker = state.coreState.src[pos++];
 
     // Check hr marker
     if (marker != 0x2A/* * */ &&
@@ -29,7 +29,7 @@ bool ccm::hr(BlockState &state, int startLine, int endLine, bool silent) {
 
     cnt = 1;
     while (pos < max) {
-        ch = state.src[pos++];
+        ch = state.coreState.src[pos++];
         if (ch != marker && !isSpace(ch)) { return false; }
         if (ch == marker) { cnt++; }
     }

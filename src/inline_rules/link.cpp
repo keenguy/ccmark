@@ -3,6 +3,7 @@
 //
 
 #include "inline_rules.h"
+#include "../InlineParser.h"
 
 namespace ccm{
     bool link(InlineState &state, bool silent);
@@ -29,7 +30,7 @@ int ccm::parseLinkLabel(InlineState &state, int start, bool disableNested) {
         }
 
         prevPos = state.pos;
-        state.inlineParser.skipToken(state);
+        state.coreState.inlineParser.skipToken(state);
         if (marker == 0x5B /* [ */) {
             if (prevPos == state.pos - 1) {
 // increase level if we find text `[`, which is not a part of any token
@@ -164,7 +165,7 @@ bool ccm::link(InlineState &state, bool silent) {
 // (collapsed reference link and shortcut reference link respectively)
         if (label.empty()) { label = state.src.substr(labelStart, labelEnd - labelStart); }
 
-        auto ref = state.linkIds.find(normalizeReference(label));
+        auto ref = state.coreState.linkIds.find(normalizeReference(label));
         if (!ref) {
             state.pos = oldPos;
             return false;
@@ -188,7 +189,7 @@ bool ccm::link(InlineState &state, bool silent) {
         }
 
         state.push(token);
-        state.inlineParser.tokenize(state);
+        state.coreState.inlineParser.tokenize(state);
 
         state.push(Token("link_close", "a", -1));
     }

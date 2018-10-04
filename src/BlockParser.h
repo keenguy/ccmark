@@ -8,58 +8,10 @@
 #include <vector>
 #include <string>
 
-#include "token.h"
-#include "LinkIds.h"
-#include "options.h"
-
 namespace ccm {
     class CoreState;
-
-    class BlockParser;
-
-    class BlockState {
-    public:
-        BlockState(std::string &src, Options &options, std::vector<Token> &tokens, LinkIds &linkIds,
-                   const BlockParser &blockParser);
-
-
-        Token &pushToken(const Token &token);
-
-        bool isEmpty(int line);
-
-        int skipEmptyLines(int from);
-
-        int skipSpaces(int from);
-
-        int skipSpacesBack(int from, int end);
-
-        int skipChars(int from, char code);
-
-        int skipCharsBack(int from, int end, char code);
-
-        std::string getLines(int begin, int end, int indent, bool keepLastLF);
-
-        const BlockParser &blockParser;
-        std::string &src;
-        std::vector<Token> &tokens;
-        LinkIds &linkIds;
-        Options &options;
-
-        int parentIndex = -1;   // index of parent/ancestor "open" token
-        std::string parentType;  //different from parentIndex, e.g. inline's parentType may be list (not list_item)
-        std::vector<int> bMarks;
-        std::vector<int> eMarks;
-        std::vector<int> tShift;
-        std::vector<int> sCount;
-        std::vector<int> bsCount;
-
-        int blkIndent = 0;
-        int curLine = 0;
-        int maxLine = 0;
-        bool tight = false;
-        int level = 0;
-        std::string result;
-    };
+    class Token;
+    class BlockState;
 
     typedef bool (*BlockRule)(BlockState &state, int startLine, int endLine, bool silent);
 

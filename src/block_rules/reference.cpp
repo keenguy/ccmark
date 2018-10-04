@@ -16,15 +16,15 @@ bool ccm::reference(BlockState &state, int startLine, int _endLine, bool silent)
     // if it's indented more than 3 spaces, it should be a code block
     if (state.sCount[startLine] - state.blkIndent >= 4) { return false; }
 
-    if (state.src[pos] != 0x5B/* [ */) { return false; }
+    if (state.coreState.src[pos] != 0x5B/* [ */) { return false; }
 
     // Simple check to quickly interrupt scan on [link](url) at the start of line.
     // Can be useful on practice: https://github.com/markdown-it/markdown-it/issues/54
     while (++pos < max) {
-        if (state.src[pos] == 0x5D /* ] */ &&
-            state.src[pos - 1] != 0x5C/* \ */) {
+        if (state.coreState.src[pos] == 0x5D /* ] */ &&
+            state.coreState.src[pos - 1] != 0x5C/* \ */) {
             if (pos + 1 == max) { return false; }
-            if (state.src[pos + 1] != 0x3A/* : */) { return false; }
+            if (state.coreState.src[pos + 1] != 0x3A/* : */) { return false; }
             break;
         }
     }
@@ -175,7 +175,7 @@ bool ccm::reference(BlockState &state, int startLine, int _endLine, bool silent)
     if (silent) { return true; }
 
 
-    state.linkIds.add(label, href, title);
+    state.coreState.linkIds.add(label, href, title);
 
 
     state.parentType = oldParentType;

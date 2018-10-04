@@ -8,8 +8,9 @@
 #include <vector>
 #include <unordered_map>
 
-#include "../InlineParser.h"
 #include "../helpers/common.h"
+#include "../CoreState.h"
+#include "InlineState.h"
 
 namespace ccm {
     class InlineState;

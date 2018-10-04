@@ -7,8 +7,10 @@
 
 #include <vector>
 #include <unordered_map>
-#include "../BlockParser.h"
+
 #include "../helpers/common.h"
+#include "../CoreState.h"
+#include "BlockState.h"
 
 
 namespace ccm {
@@ -17,7 +19,7 @@ namespace ccm {
     extern std::unordered_map<std::string, std::vector<BlockRule>> terminatorsOf;
 
     std::vector<BlockRule> getBlockRules();
-    
+
     typedef std::tuple<boost::regex, boost::regex, bool> HTMLPARSER;
     extern std::vector<HTMLPARSER> HTML_SEQUENCES;
     extern std::vector <std::string> html_blocks;

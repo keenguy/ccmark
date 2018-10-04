@@ -22,6 +22,8 @@ namespace ccm {
     bool html_inline(InlineState &state, bool silent);
     bool entity(InlineState &state, bool silent);
     bool math_inline(InlineState &state, bool silent);
+    bool footnote_ref(InlineState &state, bool silent);
+    bool footnote_inline(InlineState &state, bool silent);
 
         //global post rules
         void link_pairs(InlineState &state) {
@@ -107,7 +109,7 @@ namespace ccm {
 
     std::vector<InlineRule> getInlineRules() {
         if (!compiled) { compile(); }
-        return {text, newline, escape, math_inline, backtick, strikethrough, emphasis, link, image, autolink, html_inline, entity};
+        return {text, newline, escape, math_inline, backtick, strikethrough, emphasis, link, image, footnote_ref, footnote_inline, autolink, html_inline, entity};
     }
 
     std::vector<InlinePostRule> getInlinePostRules() {

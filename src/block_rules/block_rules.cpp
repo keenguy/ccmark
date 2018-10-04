@@ -20,6 +20,7 @@ namespace ccm {
     bool blockquote(BlockState &state, int startLine, int endLine, bool);
     bool list(BlockState &state, int startLine, int endLine, bool);
     bool math_block(BlockState &state, int startLine, int endLine, bool silent);
+    bool footnote_def(BlockState &state, int startLine, int endLine, bool silent);
 
     namespace {   //file static
         bool compiled = false;
@@ -44,8 +45,8 @@ namespace ccm {
                             "^$"),                                                     false}
             };
             terminatorsOf["paragraph"] = {fence, blockquote, hr, list, heading,
-                                          html_block,math_block}; //vector<BlockRule>(1,heading);
-            terminatorsOf["reference"] = {fence, blockquote, hr, list, heading, html_block, math_block};
+                                          html_block,math_block, footnote_def};
+            terminatorsOf["reference"] = {fence, blockquote, hr, list, heading, html_block, math_block, footnote_def};
             terminatorsOf["blockquote"] = {fence, blockquote, hr, list, heading, html_block, math_block};
             terminatorsOf["list"] = {fence, blockquote, hr,math_block};
             compiled = true;
@@ -56,7 +57,7 @@ namespace ccm {
         if (!compiled) {
             compile();
         }
-        std::vector<BlockRule> rules {code,fence,blockquote,math_block,hr,list,reference,heading,lheading,html_block,paragraph};
+        std::vector<BlockRule> rules {code,fence,blockquote,math_block,hr,list,footnote_def,reference,heading,lheading,html_block,paragraph};
         return rules;
     }
 }

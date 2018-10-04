@@ -3,15 +3,16 @@
 //
 
 #include "ccmark.h"
+#include "CoreState.h"
 #include "processor.h"
-
-using namespace std;
 
 namespace ccm {
 
-    CoreState CCMark::parse(const std::string &src, optional<Options> options) const {
-        Options opts = options ? *options : this->options;
-        CoreState state(src, opts);
+    CCMark::CCMark(const Options &options) : options(options), renderer(options){
+    }
+
+    CoreState CCMark::parse(const std::string &src) const {
+        CoreState state(src, *this);
 
         //preprocess
         normalize(state);
@@ -19,48 +20,28 @@ namespace ccm {
         //parse blocks
         blockParser.parse(state);
 
-#ifndef NDEBUG
-        state.writeTokens(std::cout, false);
-#endif
+
         // Parse inlines
         for (auto &tok:state.tokens) {
             if (tok.type == "inline") {
-                inlineParser.parse(tok.content, tok.children, state.linkIds, state.options);
+                inlineParser.parse(tok.content, tok.children, state);
             }
         }
+
+        //Do not forget to inline-parse block tokens in footnote references
+        footnote_post(state);
+
+#ifndef NDEBUG
+        std::cout<<"------- tokens begin ------"<<std::endl;
+        state.writeTokens(std::cout, false);
+        std::cout<<"------- tokens end------"<<std::endl<<std::endl;
+#endif
+
         return state;
     }
 
-    std::string CCMark::render(const std::string &src, optional<Options> opts) const {
-        Options options{opts ? *opts : this->options};
-        CoreState state = parse(src, options);
-        return renderer.render(state.tokens, opts);
-    }
-
-    CCMark::CCMark(const Options &options) : options(options), renderer(options) {
-
-    }
-
-
-    void CoreState::writeTokens(std::ostream &out, bool hidden) const {
-        for (auto token: tokens) {
-            if (!hidden || !token.hidden) {
-                if (token.type == "inline") {
-                    if (token.children.empty()) {
-                        out << token.type << " : " << token.tag << token.content << std::endl;
-                    } else {
-                        for (auto subTok: token.children) {
-                            out << subTok.type << " : " << subTok.tag << subTok.content << std::endl;
-                        }
-                    }
-                } else {
-                    out << token.type << " : " << token.tag << token.content << std::endl;
-                }
-            }
-        }
-        for (auto const &link: linkIds.mTable) {
-            out << "[" << link.first << "]" << "(" << link.second.url << " \"" << link.second.title << "\")"
-                << std::endl;
-        }
+    std::string CCMark::render(const std::string &src) const {
+        CoreState state = parse(src);
+        return renderer.render(state.tokens);
     }
 }

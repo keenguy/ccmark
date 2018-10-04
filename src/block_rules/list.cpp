@@ -3,6 +3,8 @@
 //
 
 #include "block_rules.h"
+#include "../BlockParser.h"
+
 
 namespace ccm{
     bool list(BlockState &state, int startLine, int endLine, bool);
@@ -18,7 +20,7 @@ namespace ccm {
         pos = state.bMarks[startLine] + state.tShift[startLine];
         max = state.eMarks[startLine];
 
-        marker = state.src[pos++];
+        marker = state.coreState.src[pos++];
         // Check bullet
         if (marker != 0x2A/* * */ &&
             marker != 0x2D/* - */ &&
@@ -27,7 +29,7 @@ namespace ccm {
         }
 
         if (pos < max) {
-            ch = state.src[pos];
+            ch = state.coreState.src[pos];
 
             if (!isSpace(ch)) {
                 // " -test " - is not a list item
@@ -49,7 +51,7 @@ namespace ccm {
         // List marker should have at least 2 chars (digit + dot)
         if (pos + 1 >= max) { return -1; }
 
-        ch = state.src[pos++];
+        ch = state.coreState.src[pos++];
 
         if (ch < 0x30/* 0 */ || ch > 0x39/* 9 */) { return -1; }
 
@@ -57,7 +59,7 @@ namespace ccm {
             // EOL -> fail
             if (pos >= max) { return -1; }
 
-            ch = state.src[pos++];
+            ch = state.coreState.src[pos++];
 
             if (ch >= 0x30/* 0 */ && ch <= 0x39/* 9 */) {
 
@@ -78,7 +80,7 @@ namespace ccm {
 
 
         if (pos < max) {
-            ch = state.src[pos];
+            ch = state.coreState.src[pos];
 
             if (!isSpace(ch)) {
                 // " 1.test " - is not a list item
@@ -91,10 +93,10 @@ namespace ccm {
     void markTightParagraphs(BlockState &state, int idx) {
         int level = state.level + 2;
 
-        for (int i = idx + 2, l = state.tokens.size() - 2; i < l; i++) {
-            if (state.tokens[i].level == level && state.tokens[i].type == "paragraph_open") {
-                state.tokens[i + 2].hidden = true;
-                state.tokens[i].hidden = true;
+        for (int i = idx + 2, l = state.coreState.tokens.size() - 2; i < l; i++) {
+            if (state.coreState.tokens[i].level == level && state.coreState.tokens[i].type == "paragraph_open") {
+                state.coreState.tokens[i + 2].hidden = true;
+                state.coreState.tokens[i].hidden = true;
                 i += 2;
             }
         }
@@ -124,7 +126,7 @@ namespace ccm {
         if ((posAfterMarker = skipOrderedListMarker(state, startLine)) >= 0) {
             isOrdered = true;
             start = state.bMarks[startLine] + state.tShift[startLine];
-            markerValue = std::stoi(state.src.substr(start, posAfterMarker - start - 1));
+            markerValue = std::stoi(state.coreState.src.substr(start, posAfterMarker - start - 1));
 
             // If we're starting a new ordered list right after
             // a paragraph, it should start with 1.
@@ -144,13 +146,13 @@ namespace ccm {
         }
 
         // We should terminate list on style change. Remember first one to compare.
-        char markerCharCode = state.src[posAfterMarker - 1];
+        char markerCharCode = state.coreState.src[posAfterMarker - 1];
 
         // For validation mode we can terminate immediately
         if (silent) { return true; }
 
         // Start list
-        int listTokIdx = state.tokens.size();
+        int listTokIdx = state.coreState.tokens.size();
 
         Token t1;
         if (isOrdered) {
@@ -188,7 +190,7 @@ namespace ccm {
                     state.sCount[nextLine] + posAfterMarker - (state.bMarks[startLine] + state.tShift[startLine]);
 
             while (pos < max) {
-                ch = state.src[pos];
+                ch = state.coreState.src[pos];
 
                 if (ch == 0x09) {
                     offset += 4 - (offset + state.bsCount[nextLine]) % 4;
@@ -219,7 +221,7 @@ namespace ccm {
             indent = initial + indentAfterMarker;
 
             // Run subparser & write tokens
-            int itemTokIdx = state.tokens.size();      // used to update its endline of map
+            int itemTokIdx = state.coreState.tokens.size();      // used to update its endline of map
             Token itemTok("list_item_open", "li", 1);
             itemTok.markup = string(1, markerCharCode);
             itemTok.map = std::make_pair(startLine, 0);
@@ -245,7 +247,7 @@ namespace ccm {
                 // ~~~~~~~~
                 state.curLine = std::min(state.curLine + 2, endLine);
             } else {
-                state.blockParser.tokenize(state, startLine, endLine);
+                state.coreState.blockParser.tokenize(state, startLine, endLine);
             }
 
             // If any of list item is tight, mark list as tight
@@ -266,7 +268,7 @@ namespace ccm {
             state.pushToken(t2);
 
             nextLine = startLine = state.curLine;
-            state.tokens[itemTokIdx].map.second = nextLine;
+            state.coreState.tokens[itemTokIdx].map.second = nextLine;
             contentStart = state.bMarks[startLine];
 
             if (nextLine >= endLine) { break; }
@@ -296,7 +298,7 @@ namespace ccm {
                 if (posAfterMarker < 0) { break; }
             }
 
-            if (markerCharCode != state.src[posAfterMarker - 1]) { break; }
+            if (markerCharCode != state.coreState.src[posAfterMarker - 1]) { break; }
         }
 
         // Finalize list
@@ -309,7 +311,7 @@ namespace ccm {
         t3.markup = string(1, markerCharCode);
         state.pushToken(t3);
 
-        state.tokens[listTokIdx].map.second = nextLine;
+        state.coreState.tokens[listTokIdx].map.second = nextLine;
         state.curLine = nextLine;
 
         state.parentType = oldParentType;

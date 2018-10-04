@@ -3,6 +3,7 @@
 //
 
 #include "inline_rules.h"
+#include "../InlineParser.h"
 
 namespace ccm{
     bool image(InlineState &state, bool silent);
@@ -106,7 +107,7 @@ bool ccm::image(InlineState &state, bool silent) {
         // (collapsed reference link and shortcut reference link respectively)
         if (label.empty()) { label = state.src.substr(labelStart, labelEnd - labelStart); }
 
-        auto ref = state.linkIds.find(normalizeReference(label));
+        auto ref = state.coreState.linkIds.find(normalizeReference(label));
         if (!ref) {
             state.pos = oldPos;
             return false;
@@ -123,7 +124,7 @@ bool ccm::image(InlineState &state, bool silent) {
         std::string content = state.src.substr(labelStart, labelEnd - labelStart);
 
         std::vector<Token> tokens;
-        state.inlineParser.parse(content, tokens, state.linkIds, state.options);
+        state.coreState.inlineParser.parse(content, tokens, state.coreState);
 
         Token token("image", "img", 0);
         token.setAttr("src", href);

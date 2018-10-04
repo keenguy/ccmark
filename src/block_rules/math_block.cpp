@@ -14,10 +14,10 @@ bool ccm::math_block(BlockState &state, int startLine, int endLine, bool silent)
     max = state.eMarks[startLine];
 
     if (pos + 2 > max) { return false; }
-    if (state.src.substr(pos, 2) != "$$") { return false; }
+    if (state.coreState.src.substr(pos, 2) != "$$") { return false; }
 
     pos += 2;
-    string firstLine = state.src.substr(pos, max - pos);
+    string firstLine = state.coreState.src.substr(pos, max - pos);
 
     if (silent) { return true; }
     bool found = false;
@@ -43,10 +43,10 @@ bool ccm::math_block(BlockState &state, int startLine, int endLine, bool silent)
             // non-empty line with negative indent should stop the list:
             break;
         }
-        trimed = boost::trim_copy(state.src.substr(pos, max - pos));
+        trimed = boost::trim_copy(state.coreState.src.substr(pos, max - pos));
         if (trimed.substr(trimed.length() - 2) == "$$") {
-            lastPos = state.src.substr(0, max).rfind("$$");
-            lastLine = state.src.substr(pos, lastPos - pos);
+            lastPos = state.coreState.src.substr(0, max).rfind("$$");
+            lastLine = state.coreState.src.substr(pos, lastPos - pos);
             found = true;
         }
 

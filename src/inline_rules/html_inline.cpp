@@ -12,7 +12,7 @@ namespace ccm{
 bool ccm::html_inline(InlineState &state, bool silent) {
 
 
-    if (!state.options.html) { return false; }
+    if (!state.coreState.options.html) { return false; }
 
     // Check start
     int pos = state.pos, max = state.posMax;

@@ -16,13 +16,13 @@ namespace ccm {
     class Renderer {
     public:
         Renderer();
-        Renderer(const Options& options);
-        mutable Options options;
+        explicit Renderer(Options options);
+        Options options;
         typedef std::string (Renderer::*RenderRule)(std::vector<Token>& tokens, int idx) const;
 
         std::unordered_map<std::string, RenderRule> rules;
 
-        std::string render(std::vector<Token> &tokens, optional<Options> options = {}) const;
+        std::string render(std::vector<Token> &tokens) const;
 
 
     private:
@@ -55,6 +55,12 @@ namespace ccm {
         std::string checkbox(std::vector<Token> &tokens, int idx) const;
         std::string math_block(std::vector<Token> &tokens, int idx) const;
         std::string math_inline(std::vector<Token> &tokens, int idx) const;
+        std::string footnote_ref(std::vector<Token> &tokens, int idx) const;
+        std::string footnote_block_open(std::vector<Token> &tokens, int idx) const;
+        std::string footnote_block_close(std::vector<Token> &tokens, int idx) const;
+        std::string footnote_open(std::vector<Token> &tokens, int idx) const;
+        std::string footnote_close(std::vector<Token> &tokens, int idx) const;
+        std::string footnote_anchor(std::vector<Token> &tokens, int idx) const;
 
     };
 }

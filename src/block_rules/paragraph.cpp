@@ -3,6 +3,7 @@
 //
 #include "block_rules.h"
 
+
 namespace ccm{
     bool paragraph(BlockState &state, int startLine, int endLine, bool);
 }
@@ -47,7 +48,7 @@ bool ccm::paragraph(BlockState &state, int startLine, int, bool) {
     state.pushToken(t1);
 
     // task list
-    if (state.options.taskList && oldParentType == "list" && state.parentIndex >= 0){
+    if (state.coreState.options.taskList && oldParentType == "list" && state.parentIndex >= 0){
         int checked = -1;
         if (content.find("[ ] ") == 0){
             checked = 0;
@@ -55,7 +56,7 @@ bool ccm::paragraph(BlockState &state, int startLine, int, bool) {
             checked = 1;
         }
         if (checked >= 0) {
-            state.tokens[state.parentIndex].joinAttr("class", "task-list-item");
+            state.coreState.tokens[state.parentIndex].joinAttr("class", "task-list-item");
             content = content.substr(3);
             Token tl("checkbox", "input", 0);
             tl.setAttr("class","task-list-item-checkbox");

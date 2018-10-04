@@ -18,6 +18,11 @@
 namespace ccm {
     using std::optional;
 
+    struct Meta{
+        int id = 0;
+        int subId = 0;
+        std::string label;
+    };
 class Token{
 
     typedef std::pair<std::string,std::string> Attr;
@@ -34,6 +39,7 @@ public:
     std::string content;
     std::string markup;
     std::string info;
+    Meta meta;
 
     std::pair<int,int> map;
     std::vector<Token> children;

@@ -34,7 +34,7 @@ bool ccm::lheading(BlockState &state, int startLine, int endLine, bool) {
             max = state.eMarks[nextLine];
 
             if (pos < max) {
-                marker = state.src[pos];
+                marker = state.coreState.src[pos];
 
                 if (marker == 0x2D/* - */ || marker == 0x3D/* = */) {
                     pos = state.skipChars(pos, marker);

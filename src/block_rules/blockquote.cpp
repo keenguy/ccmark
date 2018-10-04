@@ -3,6 +3,7 @@
 //
 
 #include "block_rules.h"
+#include "../BlockParser.h"
 
 namespace ccm {
     bool blockquote(BlockState &state, int startLine, int endLine, bool);
@@ -17,7 +18,7 @@ bool ccm::blockquote(BlockState &state, int startLine, int endLine, bool silent)
     if (state.sCount[startLine] - state.blkIndent >= 4) { return false; }
 
     // check the block quote marker
-    if (state.src[pos++] != 0x3E/* > */) { return false; }
+    if (state.coreState.src[pos++] != 0x3E/* > */) { return false; }
 
     // we know that it's going to be a valid blockquote,
     // so no point trying to find the end of it in silent mode
@@ -29,7 +30,7 @@ bool ccm::blockquote(BlockState &state, int startLine, int endLine, bool silent)
     bool adjustTab = false, spaceAfterMarker = false;
 
     // skip one optional space after '>'
-    if (state.src[pos] == 0x20 /* space */) {
+    if (state.coreState.src[pos] == 0x20 /* space */) {
         // ' >   test '
         //     ^ -- position start of line here:
         pos++;
@@ -37,7 +38,7 @@ bool ccm::blockquote(BlockState &state, int startLine, int endLine, bool silent)
         offset++;
         adjustTab = false;
         spaceAfterMarker = true;
-    } else if (state.src[pos] == 0x09 /* tab */) {
+    } else if (state.coreState.src[pos] == 0x09 /* tab */) {
         spaceAfterMarker = true;
 
         if ((state.bsCount[startLine] + offset) % 4 == 3) {
@@ -60,7 +61,7 @@ bool ccm::blockquote(BlockState &state, int startLine, int endLine, bool silent)
     state.bMarks[startLine] = pos;
     char ch;
     while (pos < max) {
-        ch = state.src[pos];
+        ch = state.coreState.src[pos];
 
         if (isSpace(ch)) {
             if (ch == 0x09) {
@@ -129,14 +130,14 @@ bool ccm::blockquote(BlockState &state, int startLine, int endLine, bool silent)
             break;
         }
 
-        if (state.src[pos++] == 0x3E/* > */ && !wasOutdented) {
+        if (state.coreState.src[pos++] == 0x3E/* > */ && !wasOutdented) {
             // This line is inside the blockquote.
 
             // skip spaces after ">" and re-calculate offset
             initial = offset = state.sCount[nextLine] + pos - (state.bMarks[nextLine] + state.tShift[nextLine]);
 
             // skip one optional space after '>'
-            if (state.src[pos] == 0x20 /* space */) {
+            if (state.coreState.src[pos] == 0x20 /* space */) {
                 // ' >   test '
                 //     ^ -- position start of line here:
                 pos++;
@@ -144,7 +145,7 @@ bool ccm::blockquote(BlockState &state, int startLine, int endLine, bool silent)
                 offset++;
                 adjustTab = false;
                 spaceAfterMarker = true;
-            } else if (state.src[pos] == 0x09 /* tab */) {
+            } else if (state.coreState.src[pos] == 0x09 /* tab */) {
                 spaceAfterMarker = true;
 
                 if ((state.bsCount[nextLine] + offset) % 4 == 3) {
@@ -168,7 +169,7 @@ bool ccm::blockquote(BlockState &state, int startLine, int endLine, bool silent)
             state.bMarks[nextLine] = pos;
 
             while (pos < max) {
-                ch = state.src[pos];
+                ch = state.coreState.src[pos];
 
                 if (isSpace(ch)) {
                     if (ch == 0x09) {
@@ -244,10 +245,10 @@ bool ccm::blockquote(BlockState &state, int startLine, int endLine, bool silent)
     Token t1("blockquote_open", "blockquote", 1);
     t1.markup = ">";
     t1.map = std::make_pair(startLine, 0);
-    int tokenIdx = state.tokens.size();
+    int tokenIdx = state.coreState.tokens.size();
     state.pushToken(t1);
 
-    state.blockParser.tokenize(state, startLine, nextLine);
+    state.coreState.blockParser.tokenize(state, startLine, nextLine);
 
     Token t2("blockquote_close", "blockquote", -1);
     t2.markup = ">";
@@ -255,7 +256,7 @@ bool ccm::blockquote(BlockState &state, int startLine, int endLine, bool silent)
 
     state.maxLine = oldLineMax;
     state.parentType = oldParentType;
-    state.tokens[tokenIdx].map.second = state.curLine;
+    state.coreState.tokens[tokenIdx].map.second = state.curLine;
 
     // Restore original tShift; this might not be necessary since the parser
     // has already been here, but just to make sure we can do that.

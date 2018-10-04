@@ -6,31 +6,14 @@
 #define CPP_MARKDOWN_CCMARK_H
 
 #include <string>
-#include <iostream>
-#include <list>
-#include <unordered_map>
 
 #include "options.h"
-#include "token.h"
-#include "LinkIds.h"
 #include "BlockParser.h"
 #include "Renderer.h"
 #include "InlineParser.h"
 
 namespace ccm {
 
-    // Forward references.
-
-    class CoreState{
-    public:
-        CoreState(std::string src, Options& options):src(std::move(src)),options(options){}
-        std::string src;
-        std::vector<Token> tokens;
-        LinkIds linkIds;
-        Options options;
-
-        void writeTokens(std::ostream& out, bool hidden = true) const;
-    };
     class CCMark {
     public:
         CCMark() = default;
@@ -41,13 +24,10 @@ namespace ccm {
         Renderer renderer;
 
         // parse src to tokens
-        CoreState parse(const std::string& src, optional<Options> options = {}) const;
+        CoreState parse(const std::string& src) const;
 
         // call parse to get tokens, then use renderer.render to render
-        std::string render(const std::string& src, optional<Options> options ={}) const;
-
-
-//        void normalize();
+        std::string render(const std::string& src) const;
 
         //global options, which can be override by file-specific options in CoreState and renderer-specific options
         Options options;

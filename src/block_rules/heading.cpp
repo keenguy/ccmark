@@ -14,16 +14,16 @@ bool ccm::heading(BlockState &state, int startLine, int endLine, bool silent) {
     // if it's indented more than 3 spaces, it should be a code block
     if (state.sCount[startLine] - state.blkIndent >= 4) { return false; }
 
-    char ch = state.src[pos];
+    char ch = state.coreState.src[pos];
 
     if (ch != 0x23/* # */ || pos >= max) { return false; }
 
     // count heading level
     int level = 1;
-    ch = state.src[++pos];
+    ch = state.coreState.src[++pos];
     while (ch == 0x23/* # */ && pos < max && level <= 6) {
         level++;
-        ch = state.src[++pos];
+        ch = state.coreState.src[++pos];
     }
 
     if (level > 6 || (pos < max && !isSpace(ch))) { return false; }
@@ -34,7 +34,7 @@ bool ccm::heading(BlockState &state, int startLine, int endLine, bool silent) {
 
     max = state.skipSpacesBack(max, pos);
     int tmp = state.skipCharsBack(max, 0x23, pos); // #
-    if (tmp > pos && isSpace(state.src[tmp - 1])) {
+    if (tmp > pos && isSpace(state.coreState.src[tmp - 1])) {
         max = tmp;
     }
 
@@ -46,7 +46,7 @@ bool ccm::heading(BlockState &state, int startLine, int endLine, bool silent) {
     state.pushToken(t1);
 
     Token t2("inline", "", 0);
-    t2.content = boost::trim_copy(state.src.substr(pos, max - pos));
+    t2.content = boost::trim_copy(state.coreState.src.substr(pos, max - pos));
     t2.map = std::make_pair(startLine, state.curLine);
     state.pushToken(t2);
 
