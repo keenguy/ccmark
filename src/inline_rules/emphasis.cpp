@@ -70,11 +70,6 @@ bool ccm::emphasis(InlineState &state, bool silent) {
 }
 
 void ccm::emphasis_post(InlineState &state) {
-//            var i,
-//                    endDelim,
-//                    token,
-//                    ch,
-//                    isStrong,
     char ch;
     bool isStrong;
     auto &delimiters = state.delimiters;

@@ -12,7 +12,7 @@ namespace ccm {
 }
 
 bool ccm::escape(InlineState &state, bool silent) {
-    char ch;
+    unsigned int ch;
     int pos = state.pos, max = state.posMax;
 
     if (state.src[pos] != 0x5C/* \ */) { return false; }
@@ -22,7 +22,7 @@ bool ccm::escape(InlineState &state, bool silent) {
     if (pos < max) {
         ch = state.src[pos];
 
-        if (ch < 256 && ESCAPED[ch] != 0) {
+        if (ch < 128 && ESCAPED[ch] != 0) {
             if (!silent) { state.pending += state.src[pos]; }
             state.pos += 2;
             return true;

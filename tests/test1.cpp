@@ -30,6 +30,7 @@ string html_tmpl {R"(<!DOCTYPE html>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/github-markdown-css/2.2.1/github-markdown.css"/>
+    <link rel="stylesheet" href="custom.css" />
     <script type="text/javascript" async
         src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
     </script>
@@ -53,7 +54,7 @@ string html_tmpl {R"(<!DOCTYPE html>
 	</style>
 </head>
 <body>
-<article class="markdown-body">
+<article class="markdown-body container-fluid">
 {{body}}
 </article>
 </body>
@@ -70,6 +71,7 @@ int main(int argc, char** argv){
 
 
     ccm::CCMark cm;
+    cm.options.debugLevel = 1;
     string res {cm.render(src)};
     cout<<res<<endl;
 

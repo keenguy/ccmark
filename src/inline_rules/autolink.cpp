@@ -50,8 +50,8 @@ bool ccm::autolink(InlineState &state, bool silent) {
 
     boost::smatch emailMatch;
     if (boost::regex_search(tail, emailMatch, EMAIL_RE)) {
-        url = std::string(emailMatch[0].first, emailMatch[0].second - 1);
-        fullUrl = normalizeLink("mailto:" + url);
+        url = std::string(emailMatch[0].first + 1, emailMatch[0].second - 1);
+        fullUrl = normalizeLink("mailto:"+url);
         if (!validateLink(fullUrl)) { return false; }
 
         if (!silent) {

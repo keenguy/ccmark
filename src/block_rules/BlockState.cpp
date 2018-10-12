@@ -103,7 +103,7 @@ namespace ccm {
     };
 
 //return the last non code in range (end,from]
-    int BlockState::skipCharsBack(int from, int end, char code) {
+    int BlockState::skipCharsBack(int from, char code, int end) {
         end = end < 0 ? 0 : end;
         if (from <= end) { return from; }
         while (from > end) {
@@ -151,7 +151,7 @@ namespace ccm {
             if (lineIndent > indent) {
                 // partially expanding tabs in code blocks, e.g '\t\tfoobar'
                 // with indent=2 becomes '  \tfoobar'
-                lines[i] = string(lineIndent - indent + 1, ' ') + coreState.src.substr(first, last - first);
+                lines[i] = string(lineIndent - indent, ' ') + coreState.src.substr(first, last - first);
             } else {
                 lines[i] = coreState.src.substr(first, last - first);
             }

@@ -4,6 +4,7 @@
 
 #include "InlineState.h"
 #include "../helpers/common.h"
+#include "../utf8/utf8.h"
 
 namespace ccm{
     void InlineState::pushPending() {
@@ -15,24 +16,33 @@ namespace ccm{
     }
 
     InlineState::Delim ccm::InlineState::scanDelims(int start, bool canSplitWord) {
-//    var pos = start, lastChar, nextChar, count, can_open, can_close,
-//            isLastWhiteSpace, isLastPunctChar,
-//            isNextWhiteSpace, isNextPunctChar,
-//            left_flanking = true,
-//            right_flanking = true,
+
         char marker = src[start];
         int max = posMax;
         int pos = start;
         // treat beginning of the line as a whitespace
-        char lastChar = start > 0 ? src[start - 1] : 0x20;
+        unsigned int lastChar;
+        
+        try{
+            auto cur = src.begin() + start;
+            lastChar = utf8::prior(cur, src.begin());
+        }catch(utf8::exception){
+            lastChar = 0x20u;
+        }
 
         while (pos < max && src[pos] == marker) { pos++; }
 
         int count = pos - start;
 
         // treat end of the line as a whitespace
-        char nextChar = pos < max ? src[pos] : 0x20;
+        unsigned int nextChar;
+        try{
+            nextChar = utf8::peek_next(src.begin()+pos, src.end());
+        }catch(utf8::exception){
+            nextChar = 0x20u;
+        }
 
+        // whether last/next char is punct
         bool isLastPunctChar = isMdAsciiPunct(lastChar) || isPunctChar(lastChar);
         bool isNextPunctChar = isMdAsciiPunct(nextChar) || isPunctChar(nextChar);
 

@@ -31,11 +31,11 @@ namespace ccm {
         //Do not forget to inline-parse block tokens in footnote references
         footnote_post(state);
 
-#ifndef NDEBUG
-        std::cout<<"------- tokens begin ------"<<std::endl;
-        state.writeTokens(std::cout, false);
-        std::cout<<"------- tokens end------"<<std::endl<<std::endl;
-#endif
+        if (options.debugLevel > 0) {
+            std::cout << "------- tokens begin ------" << std::endl;
+            state.writeTokens(std::cout, false);
+            std::cout << "------- tokens end------" << std::endl << std::endl;
+        }
 
         return state;
     }

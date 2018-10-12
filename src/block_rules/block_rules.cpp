@@ -27,7 +27,7 @@ namespace ccm {
 
         // set terminator rules
         void compile() {
-            std::string tmp = joinStrVec(html_blocks, "|");
+            std::string tmp = boost::algorithm::join(html_blocks,"|"); //joinStrVec(html_blocks, "|");
             HTML_SEQUENCES = {
                     {boost::regex("^<(script|pre|style)(?=(\\s|>|$))", boost::regex_constants::icase),  boost::regex(
                             "<\\/(script|pre|style)>", boost::regex_constants::icase), true},

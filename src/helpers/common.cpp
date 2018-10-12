@@ -3,17 +3,18 @@
 //
 
 #include "common.h"
+#include "encode.h"
 #include <boost/regex.hpp>
 
 namespace ccm {
     using std::string;
 
-    bool validateLink(const std::string str) {
+    bool validateLink(const std::string str) {    // not supported
         return true;
     }
 
     std::string normalizeLink(const std::string str) {
-        return str;
+        return encode(str);
     }
 
     std::string normalizeLinkText(const std::string str) {
@@ -22,8 +23,8 @@ namespace ccm {
 
     std::string normalizeReference(const std::string str) {
         std::string newStr = boost::trim_copy(str);
-        newStr = boost::regex_replace(newStr, boost::regex(" +"), " ");
-        std::transform(newStr.begin(), newStr.end(), newStr.begin(), ::toupper);
+        newStr = boost::regex_replace(newStr, boost::regex("\\s+"), " ");
+        std::transform(newStr.begin(), newStr.end(), newStr.begin(), toupper);
         return newStr;
     }
 
@@ -69,7 +70,7 @@ namespace ccm {
     }
 
     LinkRefRes parseLinkDestination(std::string str, int pos, int max) {
-        char code;
+        unsigned int code;
         int level,
                 lines = 0,
                 start = pos;
@@ -154,24 +155,12 @@ namespace ccm {
         return result;
     }
 
-    string joinStrVec(const std::vector<string> &v, const string &joiner) {
-
-        string s;
-
-        for (std::vector<string>::const_iterator p = v.begin(); p != v.end(); ++p) {
-            s += *p;
-            if (p != v.end() - 1)
-                s += joiner;
-        }
-        return s;
-    }
-
     string UNESCAPE_MD = "\\\\([!\"#$%&'()*+,\\-.\\/:;<=>?@[\\\\\\]^_`{|}~])"; // /g
-    string ENTITY = "&([a-z#][a-z0-9]{1,31})"; // /gi;
+//    string ENTITY = "&([a-z#][a-z0-9]{1,31})"; // /gi;
 
     boost::regex UNESCAPE_MD_RE(UNESCAPE_MD);
-    boost::regex ENTITY_RE(ENTITY);
-    boost::regex UNESCAPE_ALL_RE(UNESCAPE_MD + '|' + ENTITY);
+//    boost::regex ENTITY_RE(ENTITY, boost::regex::icase);
+//    boost::regex UNESCAPE_ALL_RE(UNESCAPE_MD + '|' + ENTITY, boost::regex::icase);
 
     string unescapeAll(string str) {
         if (str.find('\\') == string::npos && str.find('&') == string::npos) { return str; }
@@ -182,42 +171,34 @@ namespace ccm {
         return string(dest);
     }
 
-    inline void replaceAll(std::string &str, const std::string &oldStr, const std::string newStr) {
-        std::string::size_type pos = 0u;
-        while ((pos = str.find(oldStr, pos)) != std::string::npos) {
-            str.replace(pos, oldStr.length(), newStr);
-            pos += newStr.length();
-        }
-    }
-
     std::string escapeHtml(std::string str) {
-        replaceAll(str, "&", "&amp;");
-        replaceAll(str, "<", "&lt;");
-        replaceAll(str, ">", "&gt;");
-        replaceAll(str, "\"", "&quot;");
+        boost::algorithm::replace_all(str,"&","&amp;");
+        boost::algorithm::replace_all(str,"<","&lt;");
+        boost::algorithm::replace_all(str,">","&gt;");
+        boost::algorithm::replace_all(str,"\"","&quot;");
         return str;
     }
 
-    bool isWhiteSpace(char code) {
-        if (code >= 0x2000 && code <= 0x200A) { return true; }
-        switch (code) {
-            case 0x09: // \t
-            case 0x0A: // \n
-            case 0x0B: // \v
-            case 0x0C: // \f
-            case 0x0D: // \r
-            case 0x20:
-//        case 0xA0:
-//        case 0x1680:
-//        case 0x202F:
-//        case 0x205F:
-//        case 0x3000:
+    bool isWhiteSpace(unsigned int codepoint) {
+        if (codepoint >= 0x2000u && codepoint <= 0x200Au) { return true; }
+        switch (codepoint) {
+            case 0x09u: // \t
+            case 0x0Au: // \n
+            case 0x0Bu: // \v
+            case 0x0Cu: // \f
+            case 0x0Du: // \r
+            case 0x20u:
+            case 0xA0u:
+            case 0x1680u:
+            case 0x202Fu:
+            case 0x205Fu:
+            case 0x3000u:
                 return true;
         }
         return false;
     }
 
-    bool isMdAsciiPunct(char ch) {
+    bool isMdAsciiPunct(unsigned int ch) {
         switch (ch) {
             case 0x21/* ! */:
             case 0x22/* " */:
@@ -257,7 +238,7 @@ namespace ccm {
         }
     }
 
-    bool isPunctChar(char ch) {
+    bool isPunctChar(unsigned int ch) {   // not supported
         return false;
     }
 }

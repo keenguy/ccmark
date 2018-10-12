@@ -35,7 +35,7 @@ bool ccm::backtick(InlineState &state, bool silent) {
                 Token token("code_inline", "code", 0);
                 token.markup = marker;
                 token.content = boost::trim_copy(state.src.substr(pos, matchStart - pos));
-                token.content = boost::regex_replace(token.content, boost::regex("[\\n]+"), " ");
+                token.content = boost::regex_replace(token.content, boost::regex("[ \\n]+"), " ");
                 state.push(token);
             }
             state.pos = matchEnd;

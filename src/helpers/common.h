@@ -22,17 +22,12 @@ namespace ccm {
     //
     static inline bool isSpace(char ch) { return ch == 0x09 || ch == 0x20; }
 
-    //string unescapeMd(string str) {
-//    if (str.indexOf('\\') < 0) { return str; }
-//    return str.replace(UNESCAPE_MD_RE, '$1');
-//}
-
     std::string unescapeAll(std::string str);
 
     std::string escapeHtml(std::string str);
 
 // Zs (unicode class) || [\t\f\v\r\n]
-    bool isWhiteSpace(char code);
+    bool isWhiteSpace(unsigned int codepoint);
 
 // Markdown ASCII punctuation characters.
 //
@@ -41,8 +36,8 @@ namespace ccm {
 //
 // Don't confuse with unicode punctuation !!! It lacks some chars in ascii range.
 //
-    bool isMdAsciiPunct(char ch);
-    bool isPunctChar(char ch);
+    bool isMdAsciiPunct(unsigned int ch);
+    bool isPunctChar(unsigned int ch);
 
     // for reference
     struct LinkRefRes {

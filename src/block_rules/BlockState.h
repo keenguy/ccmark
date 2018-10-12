@@ -29,7 +29,7 @@ namespace ccm{
 
         int skipChars(int from, char code);
 
-        int skipCharsBack(int from, int end, char code);
+        int skipCharsBack(int from, char code, int end);
 
         std::string getLines(int begin, int end, int indent, bool keepLastLF);
 

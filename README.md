@@ -2,16 +2,19 @@
 A c++ markdown engine. Based on [markdown-it](https://github.com/markdown-it/markdown-it)
 
 ## Dev note
-1. In block parsing, footnote is checked before reference. Because
-footnote label begins with ^, reference label should not begin with ^.
-Hence we can use linkIds to store both of them.
+1. In block parsing, footnote is checked before reference.
+Footnote labels begin with ^, reference labels should not begin with ^.
+There are two kinds of footnotes: block and inline. Blocks in footnote
+references are inline-parsed separately: after the inline-parsing of the
+main content. (see Processor.cpp)
+
 2.
 ## Todo
 - [x] basic functionality. (Commonmark)
 - [x] math (only add delimiters)
 - [x] task list (only disabled)
 - [x] footnote
-- [ ] anchor (heading, block)
+- [ ] anchor (heading, block), data-line (scroll sync)
 - [ ] file link (subpage)
 - [ ] toggled list
 - [ ] toc
@@ -19,6 +22,7 @@ Hence we can use linkIds to store both of them.
 - [ ] search
 - [ ] block comment or tag
 - [ ] block menu
+- [ ] miscs: container, imsize, emoji, fontawesome
 
 
 

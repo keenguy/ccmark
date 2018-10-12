@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.5.1/katex.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/github-markdown-css/2.2.1/github-markdown.css"/>
+    <link rel="stylesheet" href="custom.css" />
     <script type="text/javascript" async
         src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
     </script>
@@ -27,86 +28,11 @@
 	</style>
 </head>
 <body>
-<article class="markdown-body">
-<p>This<sup class="footnote-ref"><a href="#fn1" id="fnref1">1</a></sup>
-This page offers a brief overview of what it's like to use Markdown.
-The <a href="/projects/markdown/syntax" title="Markdown Syntax">syntax page</a> provides complete, detailed documentation for
-every feature, but Markdown should be very easy to pick up simply by
-looking at a few examples of it in action. The examples on this page
-are written in a before/after style, showing example syntax and the
-HTML output produced by Markdown.</p>
-<p>It's also helpful to simply try Markdown out; the <a href="/projects/markdown/dingus" title="Markdown Dingus">Dingus</a> is a
-web application that allows you type your own Markdown-formatted text
-and translate it to XHTML.</p>
-<p><strong>Note:</strong> This document is itself written using Markdown; you
-can <a href="/projects/markdown/basics.text">see the source for it by adding '.text' to the URL</a>.</p>
-<h2>Paragraphs, Headers, Blockquotes</h2>
-<p>A paragraph is simply one or more consecutive lines of text, separated
-by one or more blank lines. (A blank line is any line that looks like a
-blank line -- a line containing nothing spaces or tabs is considered
-blank.) Normal paragraphs should not be intended with spaces or tabs.</p>
-<p>Markdown offers two styles of headers: <em>Setext</em> and <em>atx</em>.
-Setext-style headers for <code>&lt;h1&gt;</code> and <code>&lt;h2&gt;</code> are created by
-&quot;underlining&quot; with equal signs (<code>=</code>) and hyphens (<code>-</code>), respectively.
-To create an atx-style header, you put 1-6 hash marks (<code>#</code>) at the
-beginning of the line -- the number of hashes equals the resulting
-HTML header level.</p>
-<p>Blockquotes are indicated using email-style '<code>&gt;</code>' angle brackets.<sup class="footnote-ref"><a href="#fn2" id="fnref2">2</a></sup></p>
-<p>Markdown<sup class="footnote-ref"><a href="#fn3" id="fnref3">3</a></sup>:</p>
-<pre><code>A First Level Header
-====================
-
-A Second Level Header
----------------------
-
-Now is the time for all good men to come to
-the aid of their country. This is just a
-regular paragraph.
-
-The quick brown fox jumped over the lazy
-dog's back.
-
-### Header 3
-
-&gt; This is a blockquote.
-&gt;
-&gt; This is the second paragraph in the blockquote.
-&gt;
-&gt; ## This is an H2 in a blockquote
-</code></pre>
-<p>Output<sup class="footnote-ref"><a href="#fn1" id="fnref1;">1:1</a></sup>:</p>
-<pre><code>&lt;h1&gt;A First Level Header&lt;/h1&gt;
-
-&lt;h2&gt;A Second Level Header&lt;/h2&gt;
-
-&lt;p&gt;Now is the time for all good men to come to
-the aid of their country. This is just a
-regular paragraph.&lt;/p&gt;
-
-&lt;p&gt;The quick brown fox jumped over the lazy
-dog's back.&lt;/p&gt;
-
-&lt;h3&gt;Header 3&lt;/h3&gt;
-
-&lt;blockquote&gt;
-    &lt;p&gt;This is a blockquote.&lt;/p&gt;
-
-    &lt;p&gt;This is the second paragraph in the blockquote.&lt;/p&gt;
-
-    &lt;h2&gt;This is an H2 in a blockquote&lt;/h2&gt;
-&lt;/blockquote&gt;
-</code></pre>
-<h3>Phrase Emphasis</h3>
-<hr class="footnotes-sep" />
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="fn1" class="footnote-item"><p>footnote2 <a href="#fnref1" class="footnote-backref">↩︎</a> <a href="#fnref1;" class="footnote-backref">↩︎</a></p>
-</li>
-<li id="fn2" class="footnote-item">inline footnote <a href="#fnref2" class="footnote-backref">↩︎</a></li>
-<li id="fn3" class="footnote-item"><p>footnote1 <a href="#fnref3" class="footnote-backref">↩︎</a></p>
-</li>
-</ol>
-</section>
+<article class="markdown-body container-fluid">
+<p>[Foo bar]:
+<my url>
+'title'</p>
+<p>[Foo bar]</p>
 
 </article>
 </body>
