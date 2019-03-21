@@ -1,5 +1,3 @@
-[Foo bar]:
-<my url>
-'title'
+Markdown is a plain text format for writing structured documents, 
+based on conventions for indicating formatting in email
 
-[Foo bar]

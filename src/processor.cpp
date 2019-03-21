@@ -24,7 +24,7 @@ void ccm::normalize(ccm::CoreState &state) {
 
 void ccm::footnote_post(ccm::CoreState &state) {
 //    var i, l, j, t, lastParagraph, list, token, tokens, current, currentLabel,
-    int len = state.footnoteIds.referedLabels.size();
+    int len = state.fnIds.referedLabels.size();
     if (len <= 0) return;
     int beginIdx = state.tokens.size();
     Token token;
@@ -32,8 +32,8 @@ void ccm::footnote_post(ccm::CoreState &state) {
     state.tokens.push_back(token);
 
     for (int idx = 0; idx < len; idx++) {
-        auto &label = state.footnoteIds.referedLabels[idx];
-        auto &fn = state.footnoteIds.footnoteForLabel[label];
+        auto &label = state.fnIds.referedLabels[idx];
+        auto &fn = state.fnIds.footnoteForLabel[label];
         token = Token("footnote_open", "", 1);
         token.meta = {idx, -1, label};
         state.tokens.push_back(token);

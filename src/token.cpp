@@ -5,9 +5,6 @@
 #include "token.h"
 #include "ccmark.h"
 
-#include <boost/regex.hpp>
-
-
 using std::cerr;
 using std::endl;
 

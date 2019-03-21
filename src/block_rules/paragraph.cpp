@@ -29,6 +29,7 @@ bool ccm::paragraph(BlockState &state, int startLine, int, bool) {
 
         // Some tags can terminate paragraph without empty line.
         terminate = false;
+//        std::cout<<terminatorsOf.size()<<std::endl;
         for (auto terminatorRule: terminatorsOf["paragraph"]) {
             if ((*terminatorRule)(state, nextLine, endLine, true)) {
                 terminate = true;

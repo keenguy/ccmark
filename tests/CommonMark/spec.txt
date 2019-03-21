@@ -9412,4 +9412,33 @@ closers:
 After we're done, we remove all delimiters above `stack_bottom` from the
 delimiter stack.
 
+### Footnotes
 
+
+
+```````````````````````````````` example
+Footnote 1 link[^first].  
+Footnote 2 link[^second].  
+Inline footnote^[Text of inline footnote] definition.  
+Duplicated footnote reference[^second].
+
+[^first]: Footnote **can have markup**  
+    and multiple paragraphs.
+[^second]: Footnote text.
+.
+<p>Footnote 1 link<sup class="footnote-ref"><a href="#fn1" id="fnref1">1</a></sup>.<br />
+Footnote 2 link<sup class="footnote-ref"><a href="#fn2" id="fnref2">2</a></sup>.<br />
+Inline footnote<sup class="footnote-ref"><a href="#fn3" id="fnref3">3</a></sup> definition.<br />
+Duplicated footnote reference<sup class="footnote-ref"><a href="#fn2" id="fnref2;">2:1</a></sup>.</p>
+<hr class="footnotes-sep" />
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>Footnote <strong>can have markup</strong><br />
+and multiple paragraphs. <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>Footnote text. <a href="#fnref2" class="footnote-backref">↩︎</a> <a href="#fnref2;" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item">Text of inline footnote <a href="#fnref3" class="footnote-backref">↩︎</a></li>
+</ol>
+</section>
+````````````````````````````````

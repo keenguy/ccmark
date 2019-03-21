@@ -19,10 +19,6 @@ namespace ccm {
     extern std::unordered_map<std::string, std::vector<BlockRule>> terminatorsOf;
 
     std::vector<BlockRule> getBlockRules();
-
-    typedef std::tuple<boost::regex, boost::regex, bool> HTMLPARSER;
-    extern std::vector<HTMLPARSER> HTML_SEQUENCES;
-    extern std::vector <std::string> html_blocks;
 }
 
 #endif //CPP_MARKDOWN_BLOCK_RULES_H

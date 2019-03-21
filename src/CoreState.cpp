@@ -26,7 +26,7 @@ void ccm::CoreState::writeTokens(std::ostream &out, bool hidden) const {
         out << "[" << link.first << "]" << "(" << link.second.url << " \"" << link.second.title << "\")"
             << std::endl;
     }
-    for (auto const &fn: footnoteIds.footnoteForLabel){
+    for (auto const &fn: fnIds.footnoteForLabel){
         out<<fn.first<<" -> "<<fn.second.count<<std::endl;
     }
 }

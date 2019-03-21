@@ -38,7 +38,7 @@ bool ccm::footnote_ref(InlineState &state, bool silent) {
     pos++;
 
     string label = state.src.substr(start + 2, pos - start - 3);
-    auto& footnoteIds = state.coreState.footnoteIds;
+    auto& footnoteIds = state.coreState.fnIds;
     if (footnoteIds.footnoteForLabel.find(label) == footnoteIds.footnoteForLabel.end()) { return false; }
     int footnoteId = 0, footnoteSubId = 0;
     auto &fn = footnoteIds.footnoteForLabel[label];

@@ -16,13 +16,12 @@ namespace ccm {
     class Renderer {
     public:
         Renderer();
-        explicit Renderer(Options options);
-        Options options;
-        typedef std::string (Renderer::*RenderRule)(std::vector<Token>& tokens, int idx) const;
+        mutable Options options;
+        typedef std::string (Renderer::* RenderRule)(std::vector<Token>& tokens, int idx) const;
 
         std::unordered_map<std::string, RenderRule> rules;
 
-        std::string render(std::vector<Token> &tokens) const;
+        std::string render(std::vector<Token> &tokens, Options options) const;
 
 
     private:

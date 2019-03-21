@@ -7,8 +7,7 @@
 
 using namespace std;
 namespace ccm {
-    Renderer::Renderer():Renderer(Options()){}
-    Renderer::Renderer(Options options):options(std::move(options)) {
+    Renderer::Renderer(){
         rules["code_inline"] = &Renderer::code_inline;
         rules["code_block"] = &Renderer::code_block;
         rules["fence"] = &Renderer::fence;
@@ -27,6 +26,25 @@ namespace ccm {
         rules["footnote_open"] = &Renderer::footnote_open;
         rules["footnote_close"] = &Renderer::footnote_close;
         rules["footnote_anchor"] = &Renderer::footnote_anchor;
+    }
+
+    std::string Renderer::render(std::vector<Token> &tokens, Options options) const {
+        this->options = options;
+        string result;
+        string type;
+        auto len = tokens.size();
+        for (int i = 0; i < len; i++) {
+            type = tokens[i].type;
+            if (type == "inline") {
+                result += renderInline(tokens[i].children);
+            } else if (rules.find(type) != rules.end()) {
+                result += (this->*(rules.at(type)))(tokens, i);
+            } else {
+                result += renderToken(tokens, i);
+            }
+        }
+
+        return result;
     }
 
     std::string Renderer::renderAttrs(const Token &token) const {
@@ -126,24 +144,6 @@ namespace ccm {
             string type = tokens[i].type;
 
             if (rules.find(type) != rules.end()) {
-                result += (this->*(rules.at(type)))(tokens, i);
-            } else {
-                result += renderToken(tokens, i);
-            }
-        }
-
-        return result;
-    }
-
-    std::string Renderer::render(std::vector<Token> &tokens) const {
-        string result;
-        string type;
-        auto len = tokens.size();
-        for (int i = 0; i < len; i++) {
-            type = tokens[i].type;
-            if (type == "inline") {
-                result += renderInline(tokens[i].children);
-            } else if (rules.find(type) != rules.end()) {
                 result += (this->*(rules.at(type)))(tokens, i);
             } else {
                 result += renderToken(tokens, i);

@@ -27,8 +27,8 @@ namespace ccm {
 
         std::string src;
         std::vector <Token> tokens;
-        LinkIds linkIds;
-        FootnoteIds footnoteIds;
+        LinkIds linkIds;    // block links
+        FootnoteIds fnIds;  // footnotes
 
         void writeTokens(std::ostream &out, bool hidden = true) const;
     };

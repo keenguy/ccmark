@@ -44,7 +44,7 @@ public:
     std::pair<int,int> map;
     std::vector<Token> children;
 
-
+    //Todo: use unordered_map to speed up
     int indexOfAttr(const std::string& name) const{
         for(int i = 0; i < attrs.size(); i++){
             if (attrs[i].first == name) return i;

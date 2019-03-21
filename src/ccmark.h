@@ -17,7 +17,6 @@ namespace ccm {
     class CCMark {
     public:
         CCMark() = default;
-        explicit CCMark(const Options& options);
 
         BlockParser blockParser;
         InlineParser inlineParser;

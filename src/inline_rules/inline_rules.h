@@ -20,10 +20,7 @@ namespace ccm {
 
     std::vector<InlineRule> getInlineRules();
     std::vector<InlinePostRule> getInlinePostRules();
-
-    //auxiliary data and function
-    extern std::vector<int> ESCAPED;
-    extern std::string ESCAPE_CHARS;
+    
     int parseLinkLabel(InlineState &state, int start, bool disableNested = false);
 
 }

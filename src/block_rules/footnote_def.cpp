@@ -36,7 +36,7 @@ bool ccm::footnote_def(BlockState &state, int startLine, int endLine, bool silen
 //    if (!state.env.footnotes) { state.env.footnotes = {}; }
 //    if (!state.env.footnotes.refs) { state.env.footnotes.refs = {}; }
     string label = state.coreState.src.substr(start + 2, pos - start - 4);
-    auto &footnoteIds = state.coreState.footnoteIds;
+    auto &footnoteIds = state.coreState.fnIds;
     footnoteIds.footnoteForLabel[label] = Footnote(label);
 
     int openIdx = state.coreState.tokens.size();

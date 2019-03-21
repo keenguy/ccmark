@@ -8,7 +8,7 @@
 #include <iostream>
 #include <filesystem>
 #include <boost/regex.hpp>
-
+#include <unordered_map>
 using namespace std;
 
 namespace fs = std::filesystem;
@@ -60,7 +60,7 @@ string html_tmpl {R"(<!DOCTYPE html>
 </body>
 </html>)"};
 
-
+ccm::CCMark cm;
 int main(int argc, char** argv){
     ifstream mdFile("../tests/tmp/basic.txt");
     ofstream htmlFile("../tests/tmp/basic.html");
@@ -68,10 +68,8 @@ int main(int argc, char** argv){
     ss << mdFile.rdbuf();
     string src {ss.str()};
 
-
-
-    ccm::CCMark cm;
     cm.options.debugLevel = 1;
+    cm.options.breaks = false;
     string res {cm.render(src)};
     cout<<res<<endl;
 

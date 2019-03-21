@@ -8,9 +8,6 @@
 
 namespace ccm {
 
-    CCMark::CCMark(const Options &options) : options(options), renderer(options){
-    }
-
     CoreState CCMark::parse(const std::string &src) const {
         CoreState state(src, *this);
 
@@ -42,6 +39,6 @@ namespace ccm {
 
     std::string CCMark::render(const std::string &src) const {
         CoreState state = parse(src);
-        return renderer.render(state.tokens);
+        return renderer.render(state.tokens, options);
     }
 }

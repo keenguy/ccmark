@@ -8,16 +8,15 @@
 #include <string>
 namespace ccm{
     struct Options{
-        Options();
-        int maxNesting;
-        bool html;
-        bool xhtmlOut;
-        bool breaks;
-        std::string langPrefix;
+        int maxNesting = 100;
+        bool html = true;   // parse html code (block and inline)
+        bool xhtmlOut = true;
+        bool breaks = false;
+        std::string langPrefix = "language-";
 
         //added
-        bool taskList;
-        int debugLevel;
+        bool taskList = true;
+        int debugLevel = 0;
 
         //not implemented
 //        bool highlight = false;

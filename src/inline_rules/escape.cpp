@@ -6,10 +6,20 @@
 
 namespace ccm {
     bool escape(InlineState &state, bool silent);
-
-    std::vector<int> ESCAPED(256, 0);
-    std::string ESCAPE_CHARS{"\\!\"#$%&\'()*+,./:;<=>\?@[]^_`{|}~-"};
+    namespace {
+        std::vector<int> ESCAPED(256, 0);
+        std::string ESCAPE_CHARS{"\\!\"#$%&\'()*+,./:;<=>\?@[]^_`{|}~-"};
+        bool compiled = false;
+        void compile() {
+            for (auto ch:ESCAPE_CHARS) {
+                ESCAPED[ch] = 1;
+            }
+            compiled = true;
+        }
+    }
+    
 }
+
 
 bool ccm::escape(InlineState &state, bool silent) {
     unsigned int ch;
@@ -17,6 +27,11 @@ bool ccm::escape(InlineState &state, bool silent) {
 
     if (state.src[pos] != 0x5C/* \ */) { return false; }
 
+    // compute when first pass through here
+    if(!compiled){
+        compile();
+    }
+    
     pos++;
 
     if (pos < max) {

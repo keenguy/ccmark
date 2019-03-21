@@ -32,7 +32,7 @@ bool ccm::footnote_inline(InlineState &state, bool silent) {
     // We found the end of the link, and know for a fact it's a valid link;
     // so all that's left to do is to call tokenizer.
     //
-    auto &ids = state.coreState.footnoteIds;
+    auto &ids = state.coreState.fnIds;
     if (!silent) {
         int footnoteId = ids.referedLabels.size();
         string label {std::to_string(footnoteId)};
